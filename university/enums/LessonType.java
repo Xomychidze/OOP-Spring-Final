@@ -2,5 +2,7 @@ package university.enums;
 
 public enum LessonType {
     LECTURE,
-    PRACTICE
+    PRACTICE,
+    SEMINAR,
+    LAB
 }

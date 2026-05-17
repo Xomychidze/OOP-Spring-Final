@@ -94,6 +94,8 @@ public class Teacher extends Employee {
     public double getRating() { return rating; }
     public int getRatingCount() { return ratingCount; }
 
+    public List<Course> getCourses() { return new ArrayList<>(courses); }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -145,6 +145,10 @@ public class Student extends User {
     public School getSchool() { return school; }
     public void setSchool(School school) { this.school = school; }
 
+    public String getName(){
+        return getFirstName() + " " + getLastName();
+    }
+
     public List<Course> getRegisteredCourses() { return new ArrayList<>(registeredCourses); }
 
     @Override
