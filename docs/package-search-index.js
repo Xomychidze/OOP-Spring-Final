@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"university.enums"},{"l":"university.exceptions"},{"l":"university.models"},{"l":"university.research"},{"l":"university.services"}];updateSearchResults();

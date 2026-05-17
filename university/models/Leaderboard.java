@@ -3,7 +3,6 @@ package university.models;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
-import university.models.StudentProgress;
 
 public class Leaderboard implements Serializable {
     private static final long serialVersionUID = 1L;
