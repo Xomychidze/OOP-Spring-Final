@@ -1,7 +1,6 @@
 package university.models;
 
 import java.io.Serializable;
-import university.models.Student;
 
 public class StudentProgress implements Serializable, Comparable<StudentProgress> {
     private static final long serialVersionUID = 1L;

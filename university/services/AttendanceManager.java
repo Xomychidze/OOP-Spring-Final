@@ -3,7 +3,7 @@ package university.services;
 import university.models.*;
 
 import java.io.Serializable;
-import java.time.DayOfWeek;  // ← используем стандартный java.time.DayOfWeek
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -73,18 +73,15 @@ public class AttendanceManager implements Serializable {
                 gamification.awardForAttendance(student, true);
             }
             
-            System.out.println("✅ " + student.getFirstName() + " checked in online!");
+            System.out.println(student.getFirstName() + " checked in online!");
             return true;
         } else {
-            System.out.println("⏰ Online attendance closed (available from " + 
+            System.out.println("Online attendance closed (available from " + 
                                windowStart + " to " + windowEnd + ")");
             return false;
         }
     }
-    
-    /**
-     * Получить расписание по дням недели (используем стандартный DayOfWeek)
-     */
+
     public Map<DayOfWeek, List<Lesson>> getScheduleByDayOfWeek() {
         return lessons.stream().collect(Collectors.groupingBy(Lesson::getDayOfWeek));
     }
@@ -125,7 +122,7 @@ public class AttendanceManager implements Serializable {
         for (DayOfWeek day : orderedDays) {
             List<Lesson> dayLessons = schedule.get(day);
             if (dayLessons != null && !dayLessons.isEmpty()) {
-                System.out.println("\n📅 " + day + ":");
+                System.out.println("\n" + day + ":");
                 for (Lesson lesson : dayLessons) {
                     System.out.println("   " + lesson.getStartTime() + " - " + 
                                        lesson.getCourse().getName() + 

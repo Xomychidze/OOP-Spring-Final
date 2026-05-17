@@ -9,7 +9,7 @@ public class Transcript implements Serializable {
     
     private Student student;
     private List<Mark> marks;
-    private List<AttendanceRecord> attendanceRecords;  // ← от тебя (посещаемость)
+    private List<AttendanceRecord> attendanceRecords;
     
     // === Конструкторы ===
     
@@ -58,7 +58,7 @@ public class Transcript implements Serializable {
                 .orElse(0.0);
     }
     
-    // === Методы для посещаемости (от тебя) ===
+    // === Методы для посещаемости ===
     
     public void addAttendanceRecord(Lesson lesson, boolean present) {
         if (lesson != null) {
@@ -105,11 +105,11 @@ public class Transcript implements Serializable {
         System.out.println("║                        TRANSCRIPT                            ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
         
-        System.out.println("\n📌 Student: " + getStudentFullName());
-        System.out.println("🆔 ID: " + getStudentId());
+        System.out.println("\n  Student: " + getStudentFullName());
+        System.out.println("ID: " + getStudentId());
         System.out.printf("📊 GPA: %.2f%n", calculateGpa());
         
-        System.out.println("\n📚 COURSES:");
+        System.out.println("\nCOURSES:");
         if (marks.isEmpty()) {
             System.out.println("   No courses yet");
         } else {
@@ -118,14 +118,14 @@ public class Transcript implements Serializable {
             }
         }
         
-        System.out.println("\n📅 ATTENDANCE:");
+        System.out.println("\n ATTENDANCE:");
         if (attendanceRecords.isEmpty()) {
             System.out.println("   No attendance records");
         } else {
             for (AttendanceRecord record : attendanceRecords) {
                 System.out.println("   " + record);
             }
-            System.out.printf("\n   📊 Overall attendance: %.1f%%%n", getAttendancePercentage());
+            System.out.printf("\n   Overall attendance: %.1f%%%n", getAttendancePercentage());
         }
         
         System.out.println("\n═══════════════════════════════════════════════════════════════");
@@ -156,8 +156,6 @@ public class Transcript implements Serializable {
     
     public List<Mark> getMarks() { return new ArrayList<>(marks); }
     public void setMarks(List<Mark> marks) { this.marks = marks != null ? marks : new ArrayList<>(); }
-    
-    // === Переопределённые методы ===
     
     @Override
     public String toString() {

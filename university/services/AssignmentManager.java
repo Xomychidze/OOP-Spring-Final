@@ -6,7 +6,6 @@ import university.models.Teacher;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AssignmentManager implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,10 +21,7 @@ public class AssignmentManager implements Serializable {
         this.gamification = gamification;
         this.transcripts = transcripts;
     }
-    
-    /**
-     * Учитель создаёт задание для курса
-     */
+
     public void createAssignment(Course course, Assessment assessment, Teacher teacher) {
         // Проверка, что учитель ведёт этот курс
         if (!teacher.getCourses().contains(course)) {
@@ -37,13 +33,10 @@ public class AssignmentManager implements Serializable {
         for (Student student : course.getStudents()) {
             assignmentsByStudent.computeIfAbsent(student, k -> new ArrayList<>()).add(assessment);
         }
-        System.out.println("📝 Assignment '" + assessment.getDescription() + 
+        System.out.println("Assignment '" + assessment.getDescription() + 
                            "' sent to students of " + course.getName());
     }
-    
-    /**
-     * Студент отправляет решение
-     */
+
     public void submitAssignment(Student student, Assessment assessment, String submission) {
         List<Assessment> pending = assignmentsByStudent.get(student);
         if (pending == null || !pending.contains(assessment)) {
@@ -52,13 +45,10 @@ public class AssignmentManager implements Serializable {
         }
         
         assessment.submitAssignment(submission);
-        System.out.println("📤 " + student.getFirstName() + 
+        System.out.println(student.getFirstName() + 
                            " submitted solution for: " + assessment.getDescription());
     }
-    
-    /**
-     * Учитель оценивает задание
-     */
+
     public void gradeAssignment(Student student, Assessment assessment, double score, 
                                 Teacher teacher, Course course) {
         // Проверка, что учитель ведёт этот курс
@@ -76,7 +66,7 @@ public class AssignmentManager implements Serializable {
         }
         gradedAssignmentsByStudent.computeIfAbsent(student, k -> new ArrayList<>()).add(assessment);
         
-        // Добавляем в транскрипт через Mark (используем Mark от ребят)
+        // Добавляем в транскрипт через Mark
         Mark mark = findOrCreateMark(student, course);
         updateMarkFromAssessment(mark, assessment);
         
@@ -85,7 +75,7 @@ public class AssignmentManager implements Serializable {
             gamification.awardForGrade(student, assessment.getPercentage());
         }
         
-        System.out.println("👨‍🏫 Teacher " + teacher.getFirstName() + " graded " + 
+        System.out.println("Teacher " + teacher.getFirstName() + " graded " + 
                            student.getFirstName() + "'s assignment: " + score + 
                            "/" + assessment.getMaxScore() + 
                            " (" + String.format("%.1f", assessment.getPercentage()) + "%)");

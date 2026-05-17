@@ -10,18 +10,14 @@ import java.util.stream.Collectors;
 public class Mark implements Serializable, Comparable<Mark> {
     private static final long serialVersionUID = 1L;
     
-    // === От ребят ===
     private Student student;
     private Course course;
     private double attestation1;   // 1st attestation (0–100)
     private double attestation2;   // 2nd attestation (0–100)
     private double finalExam;      // Final exam (0–100)
+    private List<Assessment> assessments;
+    private transient List<GradeObserver> observers;
     
-    // === От тебя ===
-    private List<Assessment> assessments;     // для детализации оценок
-    private transient List<GradeObserver> observers;  // transient, чтобы не сериализовать
-    
-    // === Веса (от ребят) ===
     private static final double WEIGHT_ATT1 = 0.30;
     private static final double WEIGHT_ATT2 = 0.30;
     private static final double WEIGHT_FINAL = 0.40;
@@ -33,7 +29,6 @@ public class Mark implements Serializable, Comparable<Mark> {
         this.observers = new ArrayList<>();
     }
     
-    // Конструктор ребят
     public Mark(Student student, Course course,
                 double attestation1, double attestation2, double finalExam) {
         this();
@@ -44,7 +39,6 @@ public class Mark implements Serializable, Comparable<Mark> {
         this.finalExam = finalExam;
     }
     
-    // Твой конструктор
     public Mark(Student student, Course course) {
         this();
         this.student = student;
@@ -53,8 +47,6 @@ public class Mark implements Serializable, Comparable<Mark> {
         this.attestation2 = 0;
         this.finalExam = 0;
     }
-    
-    // === Паттерн Observer (твой) ===
     
     public void addObserver(GradeObserver observer) {
         if (observers != null && observer != null && !observers.contains(observer)) {
@@ -76,7 +68,6 @@ public class Mark implements Serializable, Comparable<Mark> {
         }
     }
     
-    // === Методы для работы с Assessment (твой) ===
     
     public void addAssessment(Assessment assessment) {
         if (assessment == null) return;
@@ -122,8 +113,6 @@ public class Mark implements Serializable, Comparable<Mark> {
             .collect(Collectors.toList());
     }
     
-    // === Основные методы (объединённые) ===
-    
     /**
      * Вычисляет общую оценку по формуле:
      * A1 * 0.3 + A2 * 0.3 + Final * 0.4
@@ -137,10 +126,6 @@ public class Mark implements Serializable, Comparable<Mark> {
                attestation2 * WEIGHT_ATT2 + 
                finalExam * WEIGHT_FINAL;
     }
-    
-    /**
-     * Алиас для getTotal() (для совместимости с твоим кодом)
-     */
     public double getFinalGrade() {
         return getTotal();
     }
@@ -205,14 +190,10 @@ public class Mark implements Serializable, Comparable<Mark> {
         return new ArrayList<>(assessments); 
     }
     
-    // === Comparable (твой) ===
-    
     @Override
     public int compareTo(Mark other) {
         return Double.compare(this.getTotal(), other.getTotal());
     }
-    
-    // === Переопределённые методы ===
     
     @Override
     public boolean equals(Object o) {

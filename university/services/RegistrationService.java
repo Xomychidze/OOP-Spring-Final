@@ -29,7 +29,7 @@ public class RegistrationService implements Serializable {
                 course.enrollStudent(student);
             }
             
-            System.out.println("✅ " + student.getFirstName() + " registered for " + course.getName());
+            System.out.println(student.getFirstName() + " registered for " + course.getName());
             
         } catch (CreditLimitExceededException e) {
             System.out.println("[ERROR] " + e.getMessage());
@@ -47,7 +47,7 @@ public class RegistrationService implements Serializable {
         student.dropCourse(course);
         course.removeStudent(student);
         
-        System.out.println("❌ " + student.getFirstName() + " dropped " + course.getName());
+        System.out.println(student.getFirstName() + " dropped " + course.getName());
     }
     
     /**

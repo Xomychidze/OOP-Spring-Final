@@ -23,6 +23,6 @@ public class AttendanceRecord implements Serializable {
     @Override
     public String toString() {
         return date + " - " + lesson.getCourse().getName() + 
-               " (" + lesson.getLessonType() + "): " + (present ? "✅ PRESENT" : "❌ ABSENT");
+               " (" + lesson.getLessonType() + "): " + (present ? "PRESENT" : "ABSENT");
     }
 }

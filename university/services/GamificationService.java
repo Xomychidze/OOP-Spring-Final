@@ -39,7 +39,7 @@ public class GamificationService implements Serializable {
         StudentProgress progress = getOrCreateProgress(student);
         progress.addCoins(5);
         progress.addExp(10);
-        System.out.println("🎉 " + student.getFirstName() + " +5 coins, +10 EXP for attendance!");
+        System.out.println(student.getFirstName() + " +5 coins, +10 EXP for attendance!");
         leaderboard.addOrUpdateProgress(progress);
     }
     
@@ -49,15 +49,15 @@ public class GamificationService implements Serializable {
         if (percentage >= 90) {
             progress.addDiamonds(1);
             progress.addExp(50);
-            System.out.println("💎 " + student.getFirstName() + " +1 diamond, +50 EXP (Excellent!)");
+            System.out.println(student.getFirstName() + " +1 diamond, +50 EXP (Excellent!)");
         } else if (percentage >= 75) {
             progress.addCoins(10);
             progress.addExp(25);
-            System.out.println("🪙 " + student.getFirstName() + " +10 coins, +25 EXP (Good!)");
+            System.out.println(student.getFirstName() + " +10 coins, +25 EXP (Good!)");
         } else if (percentage >= 60) {
             progress.addCoins(5);
             progress.addExp(10);
-            System.out.println("🪙 " + student.getFirstName() + " +5 coins, +10 EXP (Pass)");
+            System.out.println(student.getFirstName() + " +5 coins, +10 EXP");
         }
         
         leaderboard.addOrUpdateProgress(progress);
