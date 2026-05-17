@@ -1,0 +1,119 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User" as User
+actor "Student" as Student
+actor "Teacher" as Teacher
+actor "Manager" as Manager
+actor "Admin" as Admin
+actor "Researcher" as Researcher
+
+Student --|> User
+Teacher --|> User
+Manager --|> User
+Admin --|> User
+Researcher --|> User
+
+Teacher <|-- Researcher
+
+rectangle "University System" {
+  usecase "Login" as UC_Login
+  usecase "Logout" as UC_Logout
+  User -- UC_Login
+  User -- UC_Logout
+
+  rectangle "Student" {
+    usecase "View courses catalog" as S1
+    usecase "Register for course" as S2
+    usecase "Drop course" as S3
+    usecase "View my marks" as S4
+    usecase "Get transcript" as S5
+    usecase "Rate teacher" as S6
+    usecase "View schedule" as S7
+    usecase "Send message" as S8
+    usecase "View my progress" as S9
+    usecase "View leaderboard" as S10
+    Student -- S1
+    Student -- S2
+    Student -- S3
+    Student -- S4
+    Student -- S5
+    Student -- S6
+    Student -- S7
+    Student -- S8
+    Student -- S9
+    Student -- S10
+    S6 ..> S4 : <<extend>>
+  }
+
+  rectangle "Teacher" {
+    usecase "View assigned courses" as T1
+    usecase "Record mark" as T2
+    usecase "View students" as T3
+    usecase "Generate mark report" as T4
+    usecase "Send complaint" as T5
+    usecase "Mark attendance" as T6
+    usecase "Send message" as T7
+    Teacher -- T1
+    Teacher -- T2
+    Teacher -- T3
+    Teacher -- T4
+    Teacher -- T5
+    Teacher -- T6
+    Teacher -- T7
+    T2 ..> T3 : <<include>>
+  }
+
+  rectangle "Manager" {
+    usecase "Approve registration" as M1
+    usecase "Decline registration" as M2
+    usecase "Add course" as M3
+    usecase "Assign teacher" as M4
+    usecase "Generate academic report" as M5
+    usecase "Manage news" as M6
+    usecase "View requests" as M7
+    usecase "View students by GPA" as M8
+    usecase "View students alphabetically" as M9
+    Manager -- M1
+    Manager -- M2
+    Manager -- M3
+    Manager -- M4
+    Manager -- M5
+    Manager -- M6
+    Manager -- M7
+    Manager -- M8
+    Manager -- M9
+  }
+
+  rectangle "Admin" {
+    usecase "Add user" as A1
+    usecase "Remove user" as A2
+    usecase "Update user" as A3
+    usecase "Block user" as A4
+    usecase "View logs" as A5
+    Admin -- A1
+    Admin -- A2
+    Admin -- A3
+    Admin -- A4
+    Admin -- A5
+  }
+
+  rectangle "Researcher" {
+    usecase "Print papers sorted" as R1
+    usecase "Add research paper" as R2
+    usecase "Join research project" as R3
+    usecase "View top cited" as R4
+    usecase "Supervise student" as R5
+    Researcher -- R1
+    Researcher -- R2
+    Researcher -- R3
+    Researcher -- R4
+    Researcher -- R5
+    R1 ..> R2 : <<include>>
+    R5 ..> R3 : <<extend>>
+  }
+
+  S2 ..> M1 : triggers
+}
+@enduml
