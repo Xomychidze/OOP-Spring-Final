@@ -1,10 +1,9 @@
-import university.enums.*;
-import university.models.*;
-import university.services.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import university.enums.*;
+import university.models.*;
+import university.services.*;
 
 /**
  * KBTU University Management System — Interactive Console
@@ -32,7 +31,7 @@ public class Main {
     static Admin   admin;
     static Manager manager;
 
-    // ─────────────────────────────────────────────────────────────────────────
+
     public static void main(String[] args) {
         resetSingletons();
         seedData();
@@ -42,7 +41,7 @@ public class Main {
             User current = loginPrompt();
             if (current == null) continue;
             sep();
-            System.out.println("  ✅  Welcome, " + current.getFirstName()
+            System.out.println("    Welcome, " + current.getFirstName()
                     + " " + current.getLastName()
                     + "  [" + current.getClass().getSimpleName() + "]");
 
@@ -53,7 +52,7 @@ public class Main {
         }
     }
 
-    // ── Reset singleton ───────────────────────────────────────────────────────
+    // Reset singleton
     static void resetSingletons() {
         try {
             var f = GamificationService.class.getDeclaredField("instance");
@@ -67,7 +66,7 @@ public class Main {
         assignmentManager   = new AssignmentManager(gamification, transcripts);
     }
 
-    // ── Seed ─────────────────────────────────────────────────────────────────
+    // Seed
     static void seedData() {
         admin = new Admin(1L, "admin", "admin123", "admin@kbtu.kz",
                 "Admin", "System", "EMP-000", "IT", 500_000);
@@ -137,22 +136,22 @@ public class Main {
                 room, LocalDate.of(2025, month, dayN));
     }
 
-    // ── Login ─────────────────────────────────────────────────────────────────
+    // Login
     static User loginPrompt() {
         System.out.println("\n" + "─".repeat(52));
-        System.out.println("  🔑  LOGIN");
+        System.out.println("    LOGIN");
         System.out.println("─".repeat(52));
         System.out.print("  Login   : "); String login = sc.nextLine().trim();
         System.out.print("  Password: "); String pass  = sc.nextLine().trim();
         for (User u : allUsers)
             if (u.getLogin().equals(login) && u.authenticate(pass)) return u;
-        System.out.println("\n  ❌  Invalid credentials.");
+        System.out.println("\n    Invalid credentials.");
         return null;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
+    
     // STUDENT
-    // ══════════════════════════════════════════════════════════════════════════
+    
     static void studentMenu(Student s) {
         while (true) {
             menu("STUDENT", s.getFirstName(),
@@ -181,7 +180,7 @@ public class Main {
     static void sCourses(Student s) {
         List<Course> list = s.getRegisteredCourses();
         if (list.isEmpty()) { System.out.println("  No enrolled courses."); return; }
-        System.out.println("\n  📚  Your Courses  (credits: " + s.getCredits() + "/" + Student.MAX_CREDITS + ")");
+        System.out.println("\n    Your Courses  (credits: " + s.getCredits() + "/" + Student.MAX_CREDITS + ")");
         for (int i = 0; i < list.size(); i++) {
             Course c = list.get(i);
             System.out.printf("    %d. [%s] %s — %d credits%n", i+1, c.getCourseId(), c.getName(), c.getCredits());
@@ -191,7 +190,7 @@ public class Main {
     static void sSchedule(Student s) {
         List<Lesson> lessons = s.viewSchedule();
         if (lessons.isEmpty()) { System.out.println("  No lessons."); return; }
-        System.out.println("\n  📅  Schedule:");
+        System.out.println("\n    Schedule:");
         System.out.printf("  %-22s %-10s %-12s %-13s %s%n","Course","Type","Day","Time","Room");
         System.out.println("  " + "─".repeat(72));
         for (Lesson l : lessons)
@@ -203,7 +202,7 @@ public class Main {
     static void sTranscript(Student s) {
         List<Mark> marks = s.viewMarks();
         if (marks.isEmpty()) { System.out.println("  No marks yet."); return; }
-        System.out.println("\n  📋  Transcript — " + s.getFirstName() + " " + s.getLastName());
+        System.out.println("\n    Transcript — " + s.getFirstName() + " " + s.getLastName());
         System.out.printf("  %-34s %5s %5s %5s %5s  %s%n","Course","A1","A2","Fin","Tot","Grade");
         System.out.println("  " + "─".repeat(63));
         double gpaSum = 0;
@@ -221,7 +220,7 @@ public class Main {
     static void sGamification(Student s) {
         StudentProgress p = gamification.getProgress(s);
         if (p == null) { System.out.println("  No data yet."); return; }
-        System.out.println("\n  🎮  " + p);
+        System.out.println("\n    " + p);
         gamification.getLeaderboard().printLeaderboard(Leaderboard.COMPARE_BY_TOTAL);
     }
 
@@ -230,7 +229,7 @@ public class Main {
         for (Course c : s.getRegisteredCourses()) set.addAll(c.getTeachers());
         if (set.isEmpty()) { System.out.println("  No teachers to rate."); return; }
         List<Teacher> list = new ArrayList<>(set);
-        System.out.println("\n  ⭐  Rate a Teacher:");
+        System.out.println("\n    Rate a Teacher:");
         for (int i = 0; i < list.size(); i++) {
             Teacher t = list.get(i);
             System.out.printf("    %d. %s %s  (avg %.1f, %d votes)%n",
@@ -248,7 +247,7 @@ public class Main {
         List<Course> avail = new ArrayList<>();
         for (Course c : allCourses) if (!s.getRegisteredCourses().contains(c)) avail.add(c);
         if (avail.isEmpty()) { System.out.println("  No available courses."); return; }
-        System.out.println("\n  📘  Available:");
+        System.out.println("\n    Available:");
         for (int i = 0; i < avail.size(); i++)
             System.out.printf("    %d. [%s] %s — %d credits%n",
                     i+1, avail.get(i).getCourseId(), avail.get(i).getName(), avail.get(i).getCredits());
@@ -260,7 +259,7 @@ public class Main {
     static void sDrop(Student s) {
         List<Course> enrolled = s.getRegisteredCourses();
         if (enrolled.isEmpty()) { System.out.println("  No courses to drop."); return; }
-        System.out.println("\n  🗑️   Drop:");
+        System.out.println("\n     Drop:");
         for (int i = 0; i < enrolled.size(); i++)
             System.out.printf("    %d. %s%n", i+1, enrolled.get(i).getName());
         System.out.print("  Select (0=cancel): "); int idx = readInt(0, enrolled.size());
@@ -268,9 +267,9 @@ public class Main {
         registrationService.dropCourse(s, enrolled.get(idx-1));
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
+    
     // TEACHER
-    // ══════════════════════════════════════════════════════════════════════════
+    
     static void teacherMenu(Teacher t) {
         while (true) {
             menu("TEACHER", t.getFirstName(),
@@ -299,7 +298,7 @@ public class Main {
     static void tCourses(Teacher t) {
         if (t.getCourses().isEmpty()) { System.out.println("  No courses assigned."); return; }
         for (Course c : t.getCourses()) {
-            System.out.printf("%n  📘  %s [%s] — %d credits%n", c.getName(), c.getCourseId(), c.getCredits());
+            System.out.printf("%n    %s [%s] — %d credits%n", c.getName(), c.getCourseId(), c.getCredits());
             List<Student> students = c.getStudents();
             if (students.isEmpty()) { System.out.println("    (no students)"); continue; }
             System.out.printf("    %-4s %-26s %5s%n","#","Name","GPA");
@@ -320,7 +319,7 @@ public class Main {
         System.out.print("  Final Exam    (0–100): "); double fin = readDouble(0,100);
         t.putMark(st, c, a1, a2, fin);
         gamification.awardForGrade(st, a1*0.3 + a2*0.3 + fin*0.4);
-        System.out.println("  ✅  Mark saved.");
+        System.out.println("    Mark saved.");
     }
 
     static void tMarkAttendance(Teacher t) {
@@ -344,11 +343,11 @@ public class Main {
             boolean present = sc.nextLine().trim().equalsIgnoreCase("y");
             attendanceManager.markAttendanceManual(lesson, st, present, t);
         }
-        System.out.println("  ✅  Attendance recorded.");
+        System.out.println("    Attendance recorded.");
     }
 
     static void tAttendanceStats(Teacher t) {
-        System.out.println("\n  📊  Attendance:");
+        System.out.println("\n    Attendance:");
         for (Course c : t.getCourses()) {
             System.out.println("  " + c.getName() + ":");
             for (Student st : c.getStudents())
@@ -360,7 +359,7 @@ public class Main {
 
     static void tReport(Teacher t) {
         Course c = pickCourse(t.getCourses()); if (c == null) return;
-        System.out.println("\n  📋  " + t.generateMarkReport(c));
+        System.out.println("\n    " + t.generateMarkReport(c));
     }
 
     static void tCreateAssessment(Teacher t) {
@@ -374,12 +373,10 @@ public class Main {
         System.out.print("  Description: "); String desc = sc.nextLine().trim();
         Assessment a = new Assessment(type, max, due, desc);
         assignmentManager.createAssignment(c, a, t);
-        System.out.println("  ✅  Assessment created.");
+        System.out.println("    Assessment created.");
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
     // MANAGER
-    // ══════════════════════════════════════════════════════════════════════════
     static void managerMenu(Manager mgr) {
         while (true) {
             menu("MANAGER", mgr.getFirstName(),
@@ -393,15 +390,15 @@ public class Main {
                     "8. Leaderboard",
                     "0. Logout");
             switch (prompt()) {
-                case "1" -> { System.out.println("\n  👥  By GPA:"); int i=1;
+                case "1" -> { System.out.println("\n    By GPA:"); int i=1;
                               for (Student s : mgr.viewStudentsSortedByGpa())
                                   System.out.printf("  %2d. %-25s GPA: %.2f%n",i++,
                                           s.getFirstName()+" "+s.getLastName(), s.getGpa()); }
-                case "2" -> { System.out.println("\n  👥  Alphabetically:"); int i=1;
+                case "2" -> { System.out.println("\n    Alphabetically:"); int i=1;
                               for (Student s : mgr.viewStudentsAlphabetically())
                                   System.out.printf("  %2d. %s %s%n",i++,s.getFirstName(),s.getLastName()); }
                 case "3" -> mAssignTeacher(mgr);
-                case "4" -> System.out.println("\n  📋  " + mgr.generateAcademicReport());
+                case "4" -> System.out.println("\n    " + mgr.generateAcademicReport());
                 case "5" -> mPublishNews(mgr);
                 case "6" -> { List<News> nl = mgr.getNewsList();
                               if (nl.isEmpty()) System.out.println("  No news.");
@@ -429,19 +426,19 @@ public class Main {
         System.out.print("  Select: "); Course c = allCourses.get(readInt(1,allCourses.size())-1);
         mgr.assignTeacher(tch, c);
         tch.addCourse(c);
-        System.out.println("  ✅  Done.");
+        System.out.println("    Done.");
     }
 
     static void mPublishNews(Manager mgr) {
         System.out.print("  Title  : "); String title = sc.nextLine().trim();
         System.out.print("  Content: "); String content = sc.nextLine().trim();
         mgr.manageNews(new News(title, content, LocalDate.now()));
-        System.out.println("  ✅  Published.");
+        System.out.println("    Published.");
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
+    
     // ADMIN
-    // ══════════════════════════════════════════════════════════════════════════
+    
     static void adminMenu(Admin adm) {
         while (true) {
             menu("ADMIN", "System",
@@ -482,7 +479,7 @@ public class Main {
     }
 
     static void aAddStudent(Admin adm) {
-        System.out.println("\n  ➕  New Student:");
+        System.out.println("\n    New Student:");
         System.out.print("  First name : "); String first = sc.nextLine().trim();
         System.out.print("  Last name  : "); String last  = sc.nextLine().trim();
         System.out.print("  Login      : "); String login = sc.nextLine().trim();
@@ -493,11 +490,11 @@ public class Main {
         long id = nextId();
         Student s = new Student(id, login, pass, email, first, last, sid, year, School.FIT);
         allUsers.add(s); adm.addUser(s); manager.addStudent(s);
-        System.out.println("  ✅  Student added (login: "+login+", id: "+id+")");
+        System.out.println("   Student added (login: "+login+", id: "+id+")");
     }
 
     static void aAddTeacher(Admin adm) {
-        System.out.println("\n  ➕  New Teacher:");
+        System.out.println("\n    New Teacher:");
         System.out.print("  First name : "); String first = sc.nextLine().trim();
         System.out.print("  Last name  : "); String last  = sc.nextLine().trim();
         System.out.print("  Login      : "); String login = sc.nextLine().trim();
@@ -513,22 +510,22 @@ public class Main {
         Teacher t = new Teacher(id, login, pass, email, first, last,
                 "EMP-"+String.format("%03d",id), dept, sal, title);
         allUsers.add(t); adm.addUser(t);
-        System.out.println("  ✅  Teacher added (login: "+login+", id: "+id+")");
+        System.out.println("    Teacher added (login: "+login+", id: "+id+")");
     }
 
     static void aRemoveUser(Admin adm) {
         System.out.print("  User ID: ");
         try { long id = Long.parseLong(sc.nextLine().trim());
               allUsers.removeIf(u -> u.getId().equals(id)); adm.removeUser(id);
-              System.out.println("  ✅  Removed."); }
-        catch (NumberFormatException e) { System.out.println("  ❌  Invalid ID."); }
+              System.out.println("    Removed."); }
+        catch (NumberFormatException e) { System.out.println("    Invalid ID."); }
     }
 
     static void aBlockUser(Admin adm) {
         System.out.print("  User ID: ");
         try { long id = Long.parseLong(sc.nextLine().trim()); adm.blockUser(id);
-              System.out.println("  ✅  Blocked."); }
-        catch (NumberFormatException e) { System.out.println("  ❌  Invalid ID."); }
+              System.out.println("    Blocked."); }
+        catch (NumberFormatException e) { System.out.println("    Invalid ID."); }
     }
 
     static void aListCourses() {
@@ -540,7 +537,7 @@ public class Main {
     }
 
     static void aCreateCourse(Admin adm) {
-        System.out.println("\n  ➕  New Course:");
+        System.out.println("\n    New Course:");
         System.out.print("  Course ID  : "); String id   = sc.nextLine().trim();
         System.out.print("  Name       : "); String name = sc.nextLine().trim();
         System.out.print("  Credits    : "); int creds   = readInt(1,10);
@@ -552,12 +549,12 @@ public class Main {
         System.out.print("  Select: "); School school = schools[readInt(1,schools.length)-1];
         Course c = new Course(id, name, creds, desc, school, year);
         allCourses.add(c); manager.createCourse(c);
-        System.out.println("  ✅  Course \""+name+"\" created.");
+        System.out.println("    Course \""+name+"\" created.");
     }
 
     static void aLogs(Admin adm) {
         List<Log> logs = adm.viewLogs();
-        System.out.println("\n  📋  System Logs (" + logs.size() + " entries):");
+        System.out.println("\n    System Logs (" + logs.size() + " entries):");
         if (logs.isEmpty()) { System.out.println("  (empty)"); return; }
         for (Log l : logs) {
             String time = l.getTimestamp() != null
@@ -566,7 +563,7 @@ public class Main {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    // ── Helpers
     static void menu(String role, String name, String... items) {
         int w = 36;
         System.out.println("\n  ╔" + "═".repeat(w) + "╗");
@@ -579,7 +576,7 @@ public class Main {
 
     static String prompt() { return sc.nextLine().trim(); }
 
-    static void bad() { System.out.println("  ❌  Unknown option."); }
+    static void bad() { System.out.println("    Unknown option."); }
 
     static void sep() { System.out.println("\n" + "═".repeat(52)); }
 
