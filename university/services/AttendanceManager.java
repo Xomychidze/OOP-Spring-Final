@@ -51,7 +51,7 @@ public class AttendanceManager implements Serializable {
             gamification.awardForAttendance(student, true);
         }
         
-        System.out.println("👨‍🏫 Teacher " + teacher.getFirstName() + " marked " + 
+        System.out.println(" Teacher " + teacher.getFirstName() + " marked " + 
                            student.getFirstName() + " as " + (present ? "PRESENT" : "ABSENT"));
     }
     

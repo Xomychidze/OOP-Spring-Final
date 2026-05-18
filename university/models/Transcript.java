@@ -107,7 +107,7 @@ public class Transcript implements Serializable {
         
         System.out.println("\n  Student: " + getStudentFullName());
         System.out.println("ID: " + getStudentId());
-        System.out.printf("📊 GPA: %.2f%n", calculateGpa());
+        System.out.printf(" GPA: %.2f%n", calculateGpa());
         
         System.out.println("\nCOURSES:");
         if (marks.isEmpty()) {
