@@ -41,7 +41,7 @@ public class Student extends User {
         this.school    = school;
     }
 
-    // ------------------------------------------------------------------ actions
+    //  actions
 
     public void registerCourse(Course c) {
         if (c == null) return;
@@ -110,7 +110,7 @@ public class Student extends User {
                 .orElse(0.0) / 25.0;
     }
 
-    // ------------------------------------------------------------------ supervisor
+    //  supervisor
 
     public void setSupervisor(Researcher supervisor) {
         if (year < 4) {
@@ -125,7 +125,7 @@ public class Student extends User {
 
     public Researcher getSupervisor() { return supervisor; }
 
-    // ------------------------------------------------------------------ getters/setters
+    //  getters/setters
 
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }

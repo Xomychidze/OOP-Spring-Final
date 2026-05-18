@@ -1,10 +1,9 @@
 package university.models;
 
-import university.enums.TeacherTitle;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import university.enums.TeacherTitle;
 
 public class Teacher extends Employee {
 
@@ -29,7 +28,7 @@ public class Teacher extends Employee {
         this.courses = new ArrayList<>();
     }
 
-    // ------------------------------------------------------------------ actions
+    //  actions
 
     public void putMark(Student s, Course c, double a1, double a2, double fin) {
         if (s == null || c == null) return;
@@ -86,7 +85,7 @@ public class Teacher extends Employee {
         rating = ((rating * (ratingCount - 1)) + r) / ratingCount;
     }
 
-    // ------------------------------------------------------------------ getters/setters
+    //  getters/setters
 
     public TeacherTitle getTitle() { return title; }
     public void setTitle(TeacherTitle title) { this.title = title; }
